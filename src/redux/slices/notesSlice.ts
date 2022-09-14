@@ -1,35 +1,72 @@
-import { createSlice } from '@reduxjs/toolkit';
-import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
+import { data } from "../../data/data";
+import Note from "../../types/Note";
+import { findDates, getFullDate } from "../../utils/utils";
 
-export interface CounterState {
-  value: number;
-}
-
-const initialState: CounterState = {
-  value: 0,
+type NotesState = {
+  notesList: Note[];
 };
 
-export const counterSlice = createSlice({
-  name: 'counter',
+const initialState: NotesState = {
+  notesList: data,
+};
+
+const notesListSlice = createSlice({
+  name: "notes",
   initialState,
   reducers: {
-    increment: (state) => {
-      // Redux Toolkit allows us to write "mutating" logic in reducers. It
-      // doesn't actually mutate the state because it uses the Immer library,
-      // which detects changes to a "draft state" and produces a brand new
-      // immutable state based off those changes
-      state.value += 1;
+    createNote: (state, action: PayloadAction<Note>) => {
+      const creationDate = getFullDate();
+      const dates = findDates(action.payload.content);
+      const newNote = { ...action.payload, creationDate, dates };
+
+      state.notesList.push(newNote);
     },
-    decrement: (state) => {
-      state.value -= 1;
+    updateNote: (
+      state,
+      action: PayloadAction<{ id: number; oldNote: Note }>
+    ) => {
+      const { name, id, content, category } = action.payload.oldNote;
+      const dates = findDates(content);
+
+      state.notesList = state.notesList.map((note) => {
+        if (note.id === id) {
+          return { ...action.payload.oldNote, name, content, category, dates };
+        } else {
+          return note;
+        }
+      });
     },
-    incrementByAmount: (state, action: PayloadAction<number>) => {
-      state.value += action.payload;
+    archiveNote: (state, action: PayloadAction<number>) => {
+      state.notesList = state.notesList.map((note) => {
+        if (note.id === action.payload) {
+          return { ...note, active: true };
+        } else {
+          return note;
+        }
+      });
+    },
+    activateNote: (state, action: PayloadAction<number>) => {
+      state.notesList = state.notesList.map((note) => {
+        if (note.id === action.payload) {
+          return { ...note, active: false };
+        } else {
+          return note;
+        }
+      });
+    },
+
+    deleteNote: (state, action: PayloadAction<number>) => {
+      state.notesList = state.notesList.filter(
+        (note) => note.id !== +action.payload
+      );
     },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = counterSlice.actions;
+export const { createNote, updateNote, deleteNote, archiveNote, activateNote } =
+  notesListSlice.actions;
 
-export default counterSlice.reducer;
+export default notesListSlice.reducer;
