@@ -1,38 +1,39 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
-import { data } from "../../data/data";
-import Note from "../../types/Note";
-import { findDates, getFullDate } from "../../utils/utils";
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { data } from '../../data/data';
+import Note from '../../types/Note';
+import { findDates, getFullDate } from '../../utils/utils';
 
 type NotesState = {
   notesList: Note[];
+  showForm: boolean;
+  isUpdated: boolean;
 };
 
 const initialState: NotesState = {
   notesList: data,
+  showForm: false,
+  isUpdated: false,
 };
 
 const notesListSlice = createSlice({
-  name: "notes",
+  name: 'notes',
   initialState,
   reducers: {
-    createNote: (state, action: PayloadAction<Note>) => {
+    createNewNote: (state, action: PayloadAction<Note>) => {
+      const id = +new Date();
       const creationDate = getFullDate();
-      const dates = findDates(action.payload.content);
-      const newNote = { ...action.payload, creationDate, dates };
-
+      const dates = findDates(action.payload.content) || '';
+      const newNote = { ...action.payload, creationDate, dates, id };
       state.notesList.push(newNote);
     },
-    updateNote: (
-      state,
-      action: PayloadAction<{ id: number; oldNote: Note }>
-    ) => {
-      const { name, id, content, category } = action.payload.oldNote;
+    updateNote: (state, action: PayloadAction<Note>) => {
+      const { name, id, content, category } = action.payload;
       const dates = findDates(content);
 
       state.notesList = state.notesList.map((note) => {
         if (note.id === id) {
-          return { ...action.payload.oldNote, name, content, category, dates };
+          return { ...action.payload, name, content, category, dates };
         } else {
           return note;
         }
@@ -62,11 +63,20 @@ const notesListSlice = createSlice({
         (note) => note.id !== +action.payload
       );
     },
+    toogleForm: (state, action: PayloadAction<boolean>) => {
+      state.showForm = action.payload;
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { createNote, updateNote, deleteNote, archiveNote, activateNote } =
-  notesListSlice.actions;
+export const {
+  updateNote,
+  createNewNote,
+  deleteNote,
+  archiveNote,
+  activateNote,
+  toogleForm,
+} = notesListSlice.actions;
 
 export default notesListSlice.reducer;

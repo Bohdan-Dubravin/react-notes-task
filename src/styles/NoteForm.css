@@ -1,0 +1,115 @@
+.add-note-container {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5;
+}
+
+.form-container {
+  position: relative;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.close-btn {
+  position: absolute;
+  left: -10px;
+  top: -10px;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #009879;
+  color: #fff;
+  font-weight: 600;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.input-name {
+  margin-bottom: 16px;
+  outline: none;
+  background-color: #f0f8ff;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-size: 16px;
+  padding: 5px 10px;
+}
+
+.input-name:focus,
+.input-content:focus {
+  border-bottom: 2px solid #009879;
+}
+
+.input-content {
+  margin-bottom: 16px;
+  outline: none;
+  background-color: #f0f8ff;
+  border: none;
+  border-bottom: 2px solid transparent;
+  font-size: 14px;
+  padding: 5px 10px;
+  resize: none;
+}
+
+.create-button {
+  border: none;
+  border-radius: 10px;
+  background-color: #009879;
+  color: #fff;
+  font-weight: 800;
+  width: 40%;
+  align-self: flex-end;
+  padding: 10px 0;
+  cursor: pointer;
+}
+
+.input-label {
+  font-weight: 700;
+}
+
+.options-container {
+  position: relative;
+  border: 2px solid #009879;
+  background-color: #009879;
+  color: #fff;
+  width: 45%;
+  padding: 5px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.input-options {
+  padding: 5px 10px;
+  position: absolute;
+  list-style: none;
+  left: -2px;
+  right: -2px;
+  top: 18px;
+  background-color: #009879;
+  z-index: 3;
+  color: #fff;
+  font-weight: 600;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.options-item {
+  margin-bottom: 8px;
+}
+
+.options-item:hover {
+  background-color: #fff;
+  color: #009879;
+  cursor: pointer;
+}
