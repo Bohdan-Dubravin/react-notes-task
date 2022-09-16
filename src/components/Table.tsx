@@ -6,9 +6,10 @@ import Row from "./Row";
 type props = {
   headContent: string[];
   list: Note[];
+  showSummary?: boolean;
 };
 
-const Table: React.FC<props> = ({ headContent, list }) => {
+const Table: React.FC<props> = ({ headContent, list, showSummary = false }) => {
   return (
     <table className="styled-table">
       <thead>
@@ -20,7 +21,7 @@ const Table: React.FC<props> = ({ headContent, list }) => {
       </thead>
       <tbody>
         {list.map((item) => (
-          <Row key={item.id} item={item} />
+          <Row key={item.id} item={item} showSummary={showSummary} />
         ))}
       </tbody>
     </table>

@@ -15,6 +15,32 @@ export const findDates = (str: string) => {
   return dates.toString() || "";
 };
 
+type summary = {};
+
+export const summary = (arr: Note[]) => {
+  return arr.reduce((acc, note) => {
+    const find = acc.find((category) => category.category === note.category);
+    if (!acc[note.category]) {
+      return {
+        ...acc,
+        [note.category]: {
+          archived: note.active ? 1 : 0,
+          active: !note.active ? 1 : 0,
+        },
+      };
+    } else {
+      const isActive = note.active ? "archived" : "active";
+      return {
+        ...acc,
+        [note.category]: {
+          ...acc[note.category],
+          [isActive]: acc[note.category][isActive] + 1,
+        },
+      };
+    }
+  }, []);
+};
+
 // export const summary = (arr: Note[]) => {
 //   return arr.reduce((acc, note) => {
 //     if (!acc[note.category]) {

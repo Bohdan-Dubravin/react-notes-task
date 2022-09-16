@@ -1,27 +1,30 @@
-import React, { useState } from 'react';
-import '../styles/NoteForm.css';
-import { useAppDispatch, useAppSelector } from '../hooks/hook';
+import React, { useEffect, useState } from "react";
+import "../styles/NoteForm.css";
+import { useAppDispatch, useAppSelector } from "../hooks/hook";
 import {
   toogleForm,
   updateNote,
   createNewNote,
-} from '../redux/slices/notesSlice';
-import Note from '../types/Note';
+} from "../redux/slices/notesSlice";
+import Note from "../types/Note";
+
+const form = {
+  name: "",
+  content: "",
+  category: "",
+  creationDate: "",
+  active: true,
+  id: 0,
+  dates: "",
+};
 
 const NoteForm = () => {
   const dispatch = useAppDispatch();
-  const { isUpdated } = useAppSelector((state) => state.notes);
-  const form = {
-    name: '',
-    content: '',
-    category: '',
-    creationDate: '',
-    active: true,
-    id: 0,
-    dates: '',
-  };
+  const { isUpdated, notesList, updateNoteId } = useAppSelector(
+    (state) => state.notes
+  );
 
-  const [note, setNote] = useState(form);
+  const [note, setNote] = useState<Note>(form);
   const [showOptions, setShowOptions] = useState(false);
 
   const handleChange = (
@@ -35,6 +38,14 @@ const NoteForm = () => {
       };
     });
   };
+
+  useEffect(() => {
+    if (updateNoteId && isUpdated) {
+      const oldNote = notesList.find((note) => note.id === updateNoteId);
+
+      setNote(oldNote || form);
+    }
+  }, [updateNoteId]);
 
   const handleOption = (value: string) => {
     setNote((prev) => {
@@ -88,18 +99,18 @@ const NoteForm = () => {
           className="options-container"
           onClick={() => setShowOptions(!showOptions)}
         >
-          {note.category || 'Select Category'}
+          {note.category || "Select Category"}
           {showOptions && (
             <ul className="input-options">
-              <li className="options-item" onClick={() => handleOption('Idea')}>
+              <li className="options-item" onClick={() => handleOption("Idea")}>
                 Idea
               </li>
-              <li className="options-item" onClick={() => handleOption('Task')}>
+              <li className="options-item" onClick={() => handleOption("Task")}>
                 Task
               </li>
               <li
                 className="options-item"
-                onClick={() => handleOption('Random Thoughts')}
+                onClick={() => handleOption("Random Thoughts")}
               >
                 Random Thoughts
               </li>
@@ -111,7 +122,7 @@ const NoteForm = () => {
           className="create-button"
           type="button"
         >
-          ADD NOTE
+          {!isUpdated ? "ADD NOTE" : "UPDATE NOTE"}
         </button>
       </div>
     </div>
