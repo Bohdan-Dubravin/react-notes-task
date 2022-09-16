@@ -25,9 +25,22 @@ const notesListSlice = createSlice({
       const creationDate = getFullDate();
       const dates = findDates(action.payload.content) || '';
       const newNote = { ...action.payload, creationDate, dates, id };
+
       state.notesList.push(newNote);
     },
     updateNote: (state, action: PayloadAction<Note>) => {
+      const { name, id, content, category } = action.payload;
+      const dates = findDates(content);
+
+      state.notesList = state.notesList.map((note) => {
+        if (note.id === id) {
+          return { ...action.payload, name, content, category, dates };
+        } else {
+          return note;
+        }
+      });
+    },
+    editNote: (state, action: PayloadAction<Note>) => {
       const { name, id, content, category } = action.payload;
       const dates = findDates(content);
 
@@ -77,6 +90,7 @@ export const {
   archiveNote,
   activateNote,
   toogleForm,
+  editNote,
 } = notesListSlice.actions;
 
 export default notesListSlice.reducer;

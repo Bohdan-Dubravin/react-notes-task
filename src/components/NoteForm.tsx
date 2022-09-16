@@ -20,10 +20,9 @@ const NoteForm = () => {
     id: 0,
     dates: '',
   };
+
   const [note, setNote] = useState(form);
   const [showOptions, setShowOptions] = useState(false);
-
-  console.log(note);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
