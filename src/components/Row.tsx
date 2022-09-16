@@ -1,6 +1,6 @@
-import React from "react";
-import Note from "../types/Note";
-import { useAppDispatch, useAppSelector } from "../hooks/hook";
+import React from 'react';
+import Note from '../types/Note';
+import { useAppDispatch, useAppSelector } from '../hooks/hook';
 import {
   activateNote,
   archiveNote,
@@ -8,14 +8,14 @@ import {
   changeEditNoteId,
   toogleForm,
   isUpdating,
-} from "../redux/slices/notesSlice";
+} from '../redux/slices/notesSlice';
 
 type props = {
   item: Note;
   showSummary?: boolean;
 };
 
-const Row: React.FC<props> = ({ item, showSummary = false }) => {
+const Row: React.FC<props> = ({ item }) => {
   const dispatch = useAppDispatch();
 
   const toggleActive = (id: number) => {
@@ -27,10 +27,6 @@ const Row: React.FC<props> = ({ item, showSummary = false }) => {
     dispatch(toogleForm(true));
     dispatch(isUpdating(true));
   };
-
-  if (showSummary) {
-    return <div>Its summary</div>;
-  }
 
   return (
     <tr>
@@ -56,7 +52,7 @@ const Row: React.FC<props> = ({ item, showSummary = false }) => {
             className="btn"
             type="button"
           >
-            Archive
+            {item.active ? 'Archive' : 'Activate'}
           </button>
         </div>
       </td>
