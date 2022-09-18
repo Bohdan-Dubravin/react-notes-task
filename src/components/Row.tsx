@@ -1,6 +1,6 @@
 import React from 'react';
 import Note from '../types/Note';
-import { useAppDispatch, useAppSelector } from '../hooks/hook';
+import { useAppDispatch } from '../hooks/hook';
 import {
   activateNote,
   archiveNote,
@@ -12,7 +12,6 @@ import {
 
 type props = {
   item: Note;
-  showSummary?: boolean;
 };
 
 const Row: React.FC<props> = ({ item }) => {
@@ -30,26 +29,30 @@ const Row: React.FC<props> = ({ item }) => {
 
   return (
     <tr>
-      <td>{item.name}</td>
+      <td className="tr-content">{item.name}</td>
       <td>{item.creationDate}</td>
       <td>{item.category}</td>
-      <td>{item.content}</td>
+      <td className="tr-content">{item.content}</td>
       <td>{item.dates}</td>
       <td>
-        <div>
-          <button onClick={() => update(item.id)} className="btn" type="button">
+        <div className="actions-container">
+          <button
+            onClick={() => update(item.id)}
+            className="btn-action"
+            type="button"
+          >
             Edit
           </button>
           <button
             onClick={() => dispatch(deleteNote(item.id))}
-            className="btn"
+            className="btn-action"
             type="button"
           >
             Delete
           </button>
           <button
             onClick={() => toggleActive(item.id)}
-            className="btn"
+            className="btn-action"
             type="button"
           >
             {item.active ? 'Archive' : 'Activate'}

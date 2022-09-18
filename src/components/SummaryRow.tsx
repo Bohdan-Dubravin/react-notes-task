@@ -1,7 +1,8 @@
 import React from 'react';
+import Summary from '../types/Summary';
 
 type props = {
-  summary: { category: string; activeCount: number; archiveCount: number };
+  summary: Summary;
 };
 
 const Row: React.FC<props> = ({ summary }) => {

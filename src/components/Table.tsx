@@ -1,22 +1,17 @@
 import React from 'react';
 import '../styles/table.css';
 import Note from '../types/Note';
+import Summary from '../types/Summary';
 import Row from './Row';
 import SummaryRow from './SummaryRow';
 
 type props = {
   headContent: string[];
   list: Note[];
-  showSummary?: boolean;
-  summary?: { category: string; activeCount: number; archiveCount: number }[];
+  summary?: Summary[];
 };
 
-const Table: React.FC<props> = ({
-  headContent,
-  list,
-  showSummary = false,
-  summary = [],
-}) => {
+const Table: React.FC<props> = ({ headContent, list, summary = [] }) => {
   if (summary.length) {
     return (
       <table className="styled-table">
@@ -47,7 +42,7 @@ const Table: React.FC<props> = ({
       </thead>
       <tbody>
         {list.map((item) => (
-          <Row key={item.id} item={item} showSummary={showSummary} />
+          <Row key={item.id} item={item} />
         ))}
       </tbody>
     </table>

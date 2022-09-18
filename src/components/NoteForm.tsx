@@ -1,21 +1,21 @@
-import React, { useEffect, useState } from "react";
-import "../styles/NoteForm.css";
-import { useAppDispatch, useAppSelector } from "../hooks/hook";
+import React, { useEffect, useState } from 'react';
+import '../styles/NoteForm.css';
+import { useAppDispatch, useAppSelector } from '../hooks/hook';
 import {
   toogleForm,
   updateNote,
   createNewNote,
-} from "../redux/slices/notesSlice";
-import Note from "../types/Note";
+} from '../redux/slices/notesSlice';
+import Note from '../types/Note';
 
 const form = {
-  name: "",
-  content: "",
-  category: "",
-  creationDate: "",
+  name: '',
+  content: '',
+  category: '',
+  creationDate: '',
   active: true,
   id: 0,
-  dates: "",
+  dates: '',
 };
 
 const NoteForm = () => {
@@ -26,6 +26,7 @@ const NoteForm = () => {
 
   const [note, setNote] = useState<Note>(form);
   const [showOptions, setShowOptions] = useState(false);
+  const [errorText, setErrorText] = useState('');
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -60,15 +61,23 @@ const NoteForm = () => {
   const createNote = (note: Note) => {
     const { name, content, category } = note;
 
-    if (name && content && category) {
+    try {
+      if (!name || !content || !category) {
+        throw Error('Fill in all the fields');
+      }
+
       isUpdated ? dispatch(updateNote(note)) : dispatch(createNewNote(note));
       dispatch(toogleForm(false));
+      setErrorText('');
+    } catch (error) {
+      setErrorText((error as Error).message);
     }
   };
 
   return (
     <div className="add-note-container">
       <div className="form-container">
+        <h3 className="error-text">{errorText}</h3>
         <div onClick={() => dispatch(toogleForm(false))} className="close-btn">
           X
         </div>
@@ -95,22 +104,25 @@ const NoteForm = () => {
           cols={40}
           rows={10}
         ></textarea>
+        <label className="input-label" htmlFor="content">
+          Category
+        </label>
         <div
           className="options-container"
           onClick={() => setShowOptions(!showOptions)}
         >
-          {note.category || "Select Category"}
+          {note.category || 'Select Category'}
           {showOptions && (
             <ul className="input-options">
-              <li className="options-item" onClick={() => handleOption("Idea")}>
+              <li className="options-item" onClick={() => handleOption('Idea')}>
                 Idea
               </li>
-              <li className="options-item" onClick={() => handleOption("Task")}>
+              <li className="options-item" onClick={() => handleOption('Task')}>
                 Task
               </li>
               <li
                 className="options-item"
-                onClick={() => handleOption("Random Thoughts")}
+                onClick={() => handleOption('Random Thoughts')}
               >
                 Random Thoughts
               </li>
@@ -122,7 +134,7 @@ const NoteForm = () => {
           className="create-button"
           type="button"
         >
-          {!isUpdated ? "ADD NOTE" : "UPDATE NOTE"}
+          {!isUpdated ? 'ADD NOTE' : 'UPDATE NOTE'}
         </button>
       </div>
     </div>
