@@ -1,6 +1,7 @@
-interface Summary {
-  category: string;
-  activeCount: number;
-  archiveCount: number;
+export interface Summary {
+  categoryName: string;
+  archived: number;
+  active: number;
 }
+
 export default Summary;

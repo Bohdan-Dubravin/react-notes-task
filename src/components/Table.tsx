@@ -24,7 +24,7 @@ const Table: React.FC<props> = ({ headContent, list, summary = [] }) => {
         </thead>
         <tbody>
           {summary.map((item) => (
-            <SummaryRow key={item.category} summary={item} />
+            <SummaryRow key={item.categoryName} summary={item} />
           ))}
         </tbody>
       </table>

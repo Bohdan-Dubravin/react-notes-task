@@ -8,9 +8,9 @@ type props = {
 const Row: React.FC<props> = ({ summary }) => {
   return (
     <tr>
-      <td>{summary.category}</td>
-      <td>{summary.activeCount}</td>
-      <td>{summary.archiveCount}</td>
+      <td>{summary.categoryName}</td>
+      <td>{summary.active}</td>
+      <td>{summary.archived}</td>
     </tr>
   );
 };

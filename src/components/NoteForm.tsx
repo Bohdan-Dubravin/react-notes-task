@@ -122,9 +122,9 @@ const NoteForm = () => {
               </li>
               <li
                 className="options-item"
-                onClick={() => handleOption('Random Thoughts')}
+                onClick={() => handleOption('Random Thought')}
               >
-                Random Thoughts
+                Random Thought
               </li>
             </ul>
           )}

@@ -1,4 +1,5 @@
 import Note from '../types/Note';
+import Summary from '../types/Summary';
 
 export const getFullDate = () => {
   const today = new Date();
@@ -16,39 +17,21 @@ export const findDates = (str: string) => {
 };
 
 export const getSummaryes = (arr: Note[]) => {
-  const categories = [
-    {
-      category: 'Task',
-      activeCount: 0,
-      archiveCount: 0,
-    },
-    {
-      category: 'Idea',
-      activeCount: 0,
-      archiveCount: 0,
-    },
-    {
-      category: 'Random Thought',
-      activeCount: 0,
-      archiveCount: 0,
-    },
-  ];
-
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i].category === 'Task') {
-      arr[i].active
-        ? (categories[0].activeCount += 1)
-        : (categories[0].archiveCount += 1);
-    } else if (arr[i].category === 'Idea') {
-      arr[i].active
-        ? (categories[1].activeCount += 1)
-        : (categories[1].archiveCount += 1);
-    } else if (arr[i].category === 'Random Thought') {
-      arr[i].active
-        ? (categories[2].activeCount += 1)
-        : (categories[2].archiveCount += 1);
+  const summary = arr.reduce<Summary[]>((acc, note) => {
+    const category = acc.find((cat) => cat.categoryName === note.category);
+    if (!category) {
+      return [
+        ...acc,
+        {
+          categoryName: note.category,
+          active: note.active ? 1 : 0,
+          archived: note.active ? 0 : 1,
+        },
+      ];
     }
-  }
+    note.active ? category.active++ : category.archived++;
+    return acc;
+  }, []);
 
-  return categories;
+  return summary;
 };
