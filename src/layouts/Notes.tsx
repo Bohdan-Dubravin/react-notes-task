@@ -1,17 +1,16 @@
-import { useState } from 'react';
-import '../styles/Notes.css';
-import NoteForm from '../components/NoteForm';
-import Table from '../components/Table';
-import { useAppDispatch, useAppSelector } from '../hooks/hook';
+import { useState } from "react";
+import NoteForm from "../components/NoteForm";
+import Table from "../components/Table";
+import { useAppDispatch, useAppSelector } from "../hooks/hook";
 import {
   changeEditNoteId,
   isUpdating,
   toogleForm,
-} from '../redux/slices/notesSlice';
-import { getSummaryes } from '../utils/utils';
+} from "../redux/slices/notesSlice";
+import { getSummaryes } from "../utils/utils";
 
-const listHead = ['NAME', 'CREATED', 'CATEGORY', 'CONTENT', 'DATES', 'ACTIONS'];
-const summaryHead = ['CATEGORY', 'ACTIVE', 'ARCHIVED'];
+const listHead = ["NAME", "CREATED", "CATEGORY", "CONTENT", "DATES", "ACTIONS"];
+const summaryHead = ["CATEGORY", "ACTIVE", "ARCHIVED"];
 
 const Notes = () => {
   const dispatch = useAppDispatch();
@@ -32,17 +31,25 @@ const Notes = () => {
   };
 
   return (
-    <div className="container">
-      <Table headContent={listHead} list={activeNotes} />
-      <button className="btn" onClick={openForm}>
-        Create Note
-      </button>
-      <button className="btn" onClick={toggleArchive}>
-        Show archive notes
-      </button>
-      {show && <Table headContent={listHead} list={archivedNotes} />}
-      {showForm && <NoteForm />}
-      <Table headContent={summaryHead} list={notesList} summary={summary} />
+    <div className="w-screen bg-gray-100  font-sans ">
+      <div className="bg-white my-6 mx-3 flex-column justify-center items-center">
+        <Table headContent={listHead} list={activeNotes} />
+        <button
+          className="flex mb-5 items-center justify-center font-bold ml-auto mr-5 border p-2 border-transparent rounded-md  bg-green-lig text-white hover:text-green-lig hover:border-green-lig hover:bg-white"
+          onClick={openForm}
+        >
+          Create Note
+        </button>
+        <button
+          className="flex mb-5 items-center justify-center font-bold ml-auto mr-5 border p-2 border-transparent rounded-md  bg-green-lig text-white hover:text-green-lig hover:border-green-lig hover:bg-white"
+          onClick={toggleArchive}
+        >
+          Show archive notes
+        </button>
+        {show && <Table headContent={listHead} list={archivedNotes} />}
+        {showForm && <NoteForm />}
+        <Table headContent={summaryHead} list={notesList} summary={summary} />
+      </div>
     </div>
   );
 };

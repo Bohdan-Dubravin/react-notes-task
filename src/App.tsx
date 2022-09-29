@@ -1,9 +1,8 @@
-import './App.css';
-import Notes from './layouts/Notes';
+import Notes from "./layouts/Notes";
 
 function App() {
   return (
-    <div >
+    <div>
       <Notes />
     </div>
   );

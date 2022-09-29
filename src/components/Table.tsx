@@ -1,9 +1,8 @@
-import React from 'react';
-import '../styles/table.css';
-import Note from '../types/Note';
-import Summary from '../types/Summary';
-import Row from './Row';
-import SummaryRow from './SummaryRow';
+import React from "react";
+import Note from "../types/Note";
+import Summary from "../types/Summary";
+import Row from "./Row";
+import SummaryRow from "./SummaryRow";
 
 type props = {
   headContent: string[];
@@ -14,15 +13,17 @@ type props = {
 const Table: React.FC<props> = ({ headContent, list, summary = [] }) => {
   if (summary.length) {
     return (
-      <table className="styled-table">
-        <thead>
-          <tr>
+      <table className="table-auto mx-auto">
+        <thead className="bg-primary text-center ">
+          <tr className="bg-green-lig text-white uppercase text-sm leading-normal">
             {headContent.map((title) => (
-              <th key={title}>{title}</th>
+              <th className="py-3 px-6 text-left" key={title}>
+                {title}
+              </th>
             ))}
           </tr>
         </thead>
-        <tbody>
+        <tbody className="text-gray-600 text-sm font-light">
           {summary.map((item) => (
             <SummaryRow key={item.categoryName} summary={item} />
           ))}
@@ -32,11 +33,13 @@ const Table: React.FC<props> = ({ headContent, list, summary = [] }) => {
   }
 
   return (
-    <table className="styled-table">
-      <thead>
-        <tr>
+    <table className="table-auto min-w-full mb-4">
+      <thead className="bg-primary text-center">
+        <tr className="bg-green-lig text-white uppercase text-sm leading-normal">
           {headContent.map((title) => (
-            <th key={title}>{title}</th>
+            <th className="py-3 px-6 text-left" key={title}>
+              {title}
+            </th>
           ))}
         </tr>
       </thead>
